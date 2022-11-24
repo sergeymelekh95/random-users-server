@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const generateUsers = require('./usersGenerator');
 
 const app = express();
-
-const generateRouter = require('./routers/generateRouter');
 
 app.use(cors());
 
@@ -11,7 +10,11 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
-app.use('/api/generate', generateRouter);
+app.use('/api/generate', (req, res) => {
+    const { seed, page, nat, results, errors } = req.query;
+
+    generateUsers(page, seed, nat, results, errors);
+});
 
 const start = async () => {
     try {
