@@ -11,9 +11,9 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 
 app.use('/api/generate', (req, res) => {
-    const { seed, page, nat, results, errors } = req.query;
+    const { seed, page, nat, results, errors = 0 } = req.query;
 
-    generateUsers(page, seed, nat, results, errors);
+    return res.json(generateUsers(page, seed, nat, results, errors));
 });
 
 const start = async () => {

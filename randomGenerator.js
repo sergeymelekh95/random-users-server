@@ -2,8 +2,8 @@ class randomGenerator {
     constructor() {}
 
     seed = 1;
-    combinedSeed = 1;
     random = 1;
+    module = 1;
 
     cyrb128(str) {
         let h1 = 1779033703,
@@ -52,19 +52,18 @@ class randomGenerator {
         return this.random;
     }
 
-    initSeed(seed, page, i) {
-        this.combinedSeed = `${seed}${page}${i}`;
-        this.cyrb128(this.combinedSeed);
-
-        return this.seed;
+    initSeed(seed, page) {
+        this.module = `${seed}${page}`;
+        this.cyrb128(this.module);
     }
 
-    // mulberry32(a) {
-    //     var t = (a += 0x6d2b79f5);
-    //     t = Math.imul(t ^ (t >>> 15), t | 1);
-    //     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    //     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    // }
+    getRandom(module) {
+        this.module = this.module + module;
+        this.cyrb128(String(this.module));
+        this.sfc32(this.seed[0], this.seed[1], this.seed[2], this.seed[3])
+
+        return this.random;
+    }
 }
 
 const generator = new randomGenerator();
