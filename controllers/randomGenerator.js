@@ -1,9 +1,9 @@
 class randomGenerator {
-    constructor() {}
-
-    seed = 1;
-    random = 1;
-    module = 1;
+    constructor() {
+        this.seed = 1;
+        this.random = 1;
+        this.module = 1;
+    }
 
     cyrb128(str) {
         let h1 = 1779033703,

@@ -1,6 +1,5 @@
 class User {
     constructor(
-        // index,
         id,
         firstName,
         lastName,
@@ -11,7 +10,6 @@ class User {
         house,
         phone
     ) {
-        // this.index = index;
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
