@@ -10,7 +10,7 @@ class generateController {
         this.countErrors = 0;
 
         this.getRandomUsers = this.getRandomUsers.bind(this);
-        this.changePosition = this.changePosition.bind(this);
+        this.swap = this.swap.bind(this);
         this.createError = this.createError.bind(this);
         this.generateErrors = this.generateErrors.bind(this);
         this.generateUsers = this.generateUsers.bind(this);
@@ -18,10 +18,11 @@ class generateController {
         this.clearList = this.clearList.bind(this);
         this.getCsv = this.getCsv.bind(this);
         this.checkCountErrors = this.checkCountErrors.bind(this);
-        this.checkLength = this.checkLength.bind(this);
+        this.getFullPhoneNumber = this.getFullPhoneNumber.bind(this);
+        this.getRandomValue = this.getRandomValue.bind(this);
     }
 
-    changePosition(value, first, last) {
+    swap(value, first, last) {
         let arr = value.split('');
         let temp = arr[first];
         arr[first] = arr[last];
@@ -54,20 +55,12 @@ class generateController {
                     randomSymbol +
                     value.slice(randIndex)
                 );
-            case 'changePosition':
+            case 'swap':
                 if (value.length > 0) {
                     if (randIndex === value.length - 1) {
-                        return this.changePosition(
-                            value,
-                            randIndex,
-                            randIndex - 1
-                        );
+                        return this.swap(value, randIndex, randIndex - 1);
                     } else {
-                        return this.changePosition(
-                            value,
-                            randIndex,
-                            randIndex + 1
-                        );
+                        return this.swap(value, randIndex, randIndex + 1);
                     }
                 }
 
@@ -89,6 +82,10 @@ class generateController {
         }
     }
 
+    getRandomValue(value) {
+        return value[Math.floor(generator.getRandom(10) * value.length)];
+    }
+
     generateErrors(nat, errors, users) {
         this.countErrors = errors;
 
@@ -105,16 +102,12 @@ class generateController {
             'phone',
         ];
 
-        const errorTypes = ['delete', 'add', 'changePosition'];
+        const errorTypes = ['delete', 'add', 'swap'];
 
         for (let i = 0; i < users.length; i++) {
             for (let j = 0; j < this.countErrors; j++) {
-                const randomField =
-                    fields[Math.floor(generator.getRandom(10) * fields.length)];
-                const randomError =
-                    errorTypes[
-                        Math.floor(generator.getRandom(10) * errorTypes.length)
-                    ];
+                const randomField = this.getRandomValue(fields);
+                const randomError = this.getRandomValue(errorTypes);
 
                 const user = users[i];
 
@@ -188,10 +181,8 @@ class generateController {
         }
     }
 
-    checkLength(str, length) {
-        if (str.length < length) {
-            return `${str}0`;
-        }
+    getFullPhoneNumber(str, length) {
+        if (str.length < length) return `${str}0`;
 
         return str;
     }
@@ -215,27 +206,27 @@ class generateController {
                         generator.getRandom(10) * data[nat].lastNames.length
                     )
                 ];
-            const middleName =
+            const middleName = data[nat].middleNames ? 
                 data[nat].middleNames[
                     Math.floor(
                         generator.getRandom(10) * data[nat].middleNames.length
                     )
-                ];
+                ] : null;
             const country = data[nat].country;
             const city =
                 data[nat].cities[
                     Math.floor(
-                        generator.getRandom(10) * data[nat].middleNames.length
+                        generator.getRandom(10) * data[nat].cities.length
                     )
                 ];
             const street =
                 data[nat].streets[
                     Math.floor(
-                        generator.getRandom(10) * data[nat].middleNames.length
+                        generator.getRandom(10) * data[nat].streets.length
                     )
                 ];
             const house = Math.floor(generator.getRandom(10) * 200);
-            const phone = this.checkLength(
+            const phone = this.getFullPhoneNumber(
                 data[nat].phoneCode +
                     Math.floor(10000 * generator.getRandom(10) * 90000),
                 12
@@ -256,9 +247,11 @@ class generateController {
             users.push(user);
         }
 
-        if (errors > 0) {
-            this.generateErrors(nat, errors, users);
+        if (+errors > 0) {
+            this.generateErrors(nat, +errors, users);
         }
+
+        console.log(users)
 
         return users;
     }

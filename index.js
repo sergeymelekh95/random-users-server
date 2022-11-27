@@ -1,12 +1,12 @@
 const express = require('express');
 const cors = require('cors');
-// const generateUsers = require('./usersGenerator');
 
+const corsOptions = require('./config/corsOptions');
 const generateRouter = require('./routers/generateRouter');
 
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 const PORT = process.env.PORT || 3001;
 
