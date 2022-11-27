@@ -129,12 +129,14 @@ class generateController {
                         );
                         break;
                     case 'middleName':
-                        user.middleName = this.createError(
-                            generator.getRandom(10),
-                            String(user.middleName),
-                            randomError,
-                            nat
-                        );
+                        if (user.middleName) {
+                            user.middleName = this.createError(
+                                generator.getRandom(10),
+                                String(user.middleName),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                     case 'country':
                         user.country = this.createError(
@@ -266,6 +268,8 @@ class generateController {
 
     getRandomUsers(req, res) {
         const { seed, page, nat, results, errors = 0 } = req.query;
+
+        console.log(errors)
 
         if (page == 1) {
             this.clearList();
