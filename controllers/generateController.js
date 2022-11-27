@@ -115,18 +115,22 @@ class generateController {
 
                 switch (randomField) {
                     case 'firstName':
-                        user.firstName = this.createError(
-                            String(user.firstName),
-                            randomError,
-                            nat
-                        );
+                        if (user.firstName) {
+                            user.firstName = this.createError(
+                                String(user.firstName),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                     case 'lastName':
-                        user.lastName = this.createError(
-                            String(user.lastName),
-                            randomError,
-                            nat
-                        );
+                        if (user.lastName) {
+                            user.lastName = this.createError(
+                                String(user.lastName),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                     case 'middleName':
                         if (user.middleName) {
@@ -138,25 +142,31 @@ class generateController {
                         }
                         break;
                     case 'country':
-                        user.country = this.createError(
-                            String(user.country),
-                            randomError,
-                            nat
-                        );
+                        if (user.country) {
+                            user.country = this.createError(
+                                String(user.country),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                     case 'city':
-                        user.city = this.createError(
-                            String(user.city),
-                            randomError,
-                            nat
-                        );
+                        if (user.city) {
+                            user.city = this.createError(
+                                String(user.city),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                     case 'street':
-                        user.street = this.createError(
-                            String(user.street),
-                            randomError,
-                            nat
-                        );
+                        if (user.street) {
+                            user.street = this.createError(
+                                String(user.street),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                     case 'house':
                         if (user.house) {
@@ -168,11 +178,13 @@ class generateController {
                         }
                         break;
                     case 'phone':
-                        user.phone = this.createError(
-                            String(user.phone),
-                            randomError,
-                            nat
-                        );
+                        if (user.phone) {
+                            user.phone = this.createError(
+                                String(user.phone),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                 }
             }
@@ -195,7 +207,10 @@ class generateController {
         const users = [];
 
         for (let i = 0; i < results; i++) {
-            const id = this.addZero(String(generator.getRandom(1000000000)), 12);
+            const id = this.addZero(
+                String(generator.getRandom(1000000000)),
+                12
+            );
             const firstName =
                 data[nat].firstNames[
                     generator.getRandom(data[nat].firstNames.length)
