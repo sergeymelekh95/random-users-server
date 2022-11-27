@@ -70,6 +70,9 @@ class generateController {
 
     checkCountErrors() {
         if (!Number.isInteger(this.countErrors)) {
+
+            this.countErrors = String(this.countErrors);
+
             const percent = this.countErrors.split('.')[1];
             const random = generator.getRandom(10);
 
@@ -253,8 +256,6 @@ class generateController {
             this.generateErrors(nat, +errors, users);
         }
 
-        console.log(users)
-
         return users;
     }
 
@@ -268,8 +269,6 @@ class generateController {
 
     getRandomUsers(req, res) {
         const { seed, page, nat, results, errors = 0 } = req.query;
-
-        console.log(errors)
 
         if (page == 1) {
             this.clearList();
