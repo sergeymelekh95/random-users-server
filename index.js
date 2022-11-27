@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(
     history({
-        // index: '/index.html',
+        index: '/index.html',
         disableDotRule: true,
     })
 );
