@@ -32,8 +32,8 @@ class generateController {
         return arr;
     }
 
-    createError(random, value, randomError, nat) {
-        const randIndex = Math.floor(random * value.length);
+    createError(value, randomError, nat) {
+        const randIndex = generator.getRandom(value.length);
 
         switch (randomError) {
             case 'delete':
@@ -48,7 +48,7 @@ class generateController {
             case 'add':
                 const alphabet = data[nat].alphabet;
                 const randomSymbol =
-                    alphabet[Math.floor(random * alphabet.length)];
+                    alphabet[generator.getRandom(alphabet.length)];
 
                 return (
                     value.slice(0, randIndex) +
@@ -86,7 +86,7 @@ class generateController {
     }
 
     getRandomValue(value) {
-        return value[Math.floor(generator.getRandom(10) * value.length)];
+        return value[generator.getRandom(value.length)];
     }
 
     generateErrors(nat, errors, users) {
@@ -117,7 +117,6 @@ class generateController {
                 switch (randomField) {
                     case 'firstName':
                         user.firstName = this.createError(
-                            generator.getRandom(10),
                             String(user.firstName),
                             randomError,
                             nat
@@ -125,7 +124,6 @@ class generateController {
                         break;
                     case 'lastName':
                         user.lastName = this.createError(
-                            generator.getRandom(10),
                             String(user.lastName),
                             randomError,
                             nat
@@ -134,7 +132,6 @@ class generateController {
                     case 'middleName':
                         if (user.middleName) {
                             user.middleName = this.createError(
-                                generator.getRandom(10),
                                 String(user.middleName),
                                 randomError,
                                 nat
@@ -143,7 +140,6 @@ class generateController {
                         break;
                     case 'country':
                         user.country = this.createError(
-                            generator.getRandom(10),
                             String(user.country),
                             randomError,
                             nat
@@ -151,7 +147,6 @@ class generateController {
                         break;
                     case 'city':
                         user.city = this.createError(
-                            generator.getRandom(10),
                             String(user.city),
                             randomError,
                             nat
@@ -159,7 +154,6 @@ class generateController {
                         break;
                     case 'street':
                         user.street = this.createError(
-                            generator.getRandom(10),
                             String(user.street),
                             randomError,
                             nat
@@ -167,7 +161,6 @@ class generateController {
                         break;
                     case 'house':
                         user.house = this.createError(
-                            generator.getRandom(10),
                             String(user.house),
                             randomError,
                             nat
@@ -175,7 +168,6 @@ class generateController {
                         break;
                     case 'phone':
                         user.phone = this.createError(
-                            generator.getRandom(10),
                             String(user.phone),
                             randomError,
                             nat
@@ -198,44 +190,15 @@ class generateController {
         const users = [];
 
         for (let i = 0; i < results; i++) {
-            const id = Math.floor(generator.getRandom(10) * 100000000000000);
-            const firstName =
-                data[nat].firstNames[
-                    Math.floor(
-                        generator.getRandom(10) * data[nat].firstNames.length
-                    )
-                ];
-            const lastName =
-                data[nat].lastNames[
-                    Math.floor(
-                        generator.getRandom(10) * data[nat].lastNames.length
-                    )
-                ];
-            const middleName = data[nat].middleNames ? 
-                data[nat].middleNames[
-                    Math.floor(
-                        generator.getRandom(10) * data[nat].middleNames.length
-                    )
-                ] : null;
+            const id = generator.getRandom(10000000000);
+            const firstName = data[nat].firstNames[generator.getRandom(data[nat].firstNames.length)];
+            const lastName = data[nat].lastNames[generator.getRandom(data[nat].lastNames.length)];
+            const middleName = data[nat].middleNames ? data[nat].middleNames[generator.getRandom(data[nat].middleNames.length)] : null;
             const country = data[nat].country;
-            const city =
-                data[nat].cities[
-                    Math.floor(
-                        generator.getRandom(10) * data[nat].cities.length
-                    )
-                ];
-            const street =
-                data[nat].streets[
-                    Math.floor(
-                        generator.getRandom(10) * data[nat].streets.length
-                    )
-                ];
-            const house = Math.floor(generator.getRandom(10) * 200);
-            const phone = this.getFullPhoneNumber(
-                data[nat].phoneCode +
-                    Math.floor(10000 * generator.getRandom(10) * 90000),
-                12
-            );
+            const city = data[nat].cities[generator.getRandom(data[nat].cities.length)];
+            const street = data[nat].streets[generator.getRandom(data[nat].streets.length)];
+            const house = generator.getRandom(200);
+            const phone = this.getFullPhoneNumber(data[nat].phoneCode + generator.getRandom(1000000000), 13);
 
             const user = new User(
                 id,
