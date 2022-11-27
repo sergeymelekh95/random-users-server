@@ -18,7 +18,7 @@ class generateController {
         this.clearList = this.clearList.bind(this);
         this.getCsv = this.getCsv.bind(this);
         this.checkCountErrors = this.checkCountErrors.bind(this);
-        this.getFullPhoneNumber = this.getFullPhoneNumber.bind(this);
+        this.addZero = this.addZero.bind(this);
         this.getRandomValue = this.getRandomValue.bind(this);
     }
 
@@ -70,7 +70,6 @@ class generateController {
 
     checkCountErrors() {
         if (!Number.isInteger(this.countErrors)) {
-
             this.countErrors = String(this.countErrors);
 
             const percent = this.countErrors.split('.')[1];
@@ -160,11 +159,13 @@ class generateController {
                         );
                         break;
                     case 'house':
-                        user.house = this.createError(
-                            String(user.house),
-                            randomError,
-                            nat
-                        );
+                        if (user.house) {
+                            user.house = this.createError(
+                                String(user.house),
+                                randomError,
+                                nat
+                            );
+                        }
                         break;
                     case 'phone':
                         user.phone = this.createError(
@@ -178,10 +179,15 @@ class generateController {
         }
     }
 
-    getFullPhoneNumber(str, length) {
-        if (str.length < length) return `${str}0`;
+    addZero(str, length) {
+        let fullStr = str;
 
-        return str;
+        while (fullStr.length < length) {
+            console.log(fullStr.length, length)
+            fullStr = fullStr + '0';
+        }
+
+        return fullStr;
     }
 
     generateUsers(page, seed, nat, results, errors) {
@@ -190,15 +196,32 @@ class generateController {
         const users = [];
 
         for (let i = 0; i < results; i++) {
-            const id = generator.getRandom(10000000000);
-            const firstName = data[nat].firstNames[generator.getRandom(data[nat].firstNames.length)];
-            const lastName = data[nat].lastNames[generator.getRandom(data[nat].lastNames.length)];
-            const middleName = data[nat].middleNames ? data[nat].middleNames[generator.getRandom(data[nat].middleNames.length)] : null;
+            const id = this.addZero(String(generator.getRandom(1000000000)), 12);
+            const firstName =
+                data[nat].firstNames[
+                    generator.getRandom(data[nat].firstNames.length)
+                ];
+            const lastName =
+                data[nat].lastNames[
+                    generator.getRandom(data[nat].lastNames.length)
+                ];
+            const middleName = data[nat].middleNames
+                ? data[nat].middleNames[
+                      generator.getRandom(data[nat].middleNames.length)
+                  ]
+                : null;
             const country = data[nat].country;
-            const city = data[nat].cities[generator.getRandom(data[nat].cities.length)];
-            const street = data[nat].streets[generator.getRandom(data[nat].streets.length)];
+            const city =
+                data[nat].cities[generator.getRandom(data[nat].cities.length)];
+            const street =
+                data[nat].streets[
+                    generator.getRandom(data[nat].streets.length)
+                ];
             const house = generator.getRandom(200);
-            const phone = this.getFullPhoneNumber(data[nat].phoneCode + generator.getRandom(1000000000), 13);
+            const phone = this.addZero(
+                data[nat].phoneCode + generator.getRandom(1000000000),
+                12
+            );
 
             const user = new User(
                 id,
