@@ -183,7 +183,6 @@ class generateController {
         let fullStr = str;
 
         while (fullStr.length < length) {
-            console.log(fullStr.length, length)
             fullStr = fullStr + '0';
         }
 
@@ -220,7 +219,7 @@ class generateController {
             const house = generator.getRandom(200);
             const phone = this.addZero(
                 data[nat].phoneCode + generator.getRandom(1000000000),
-                12
+                13
             );
 
             const user = new User(
