@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const history = require('connect-history-api-fallback');
 
 const corsOptions = require('./config/corsOptions');
 const generateRouter = require('./routers/generateRouter');
@@ -12,13 +11,6 @@ app.use(cors(corsOptions));
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-
-app.use(
-    history({
-        index: '/index.html',
-        disableDotRule: true,
-    })
-);
 
 app.use('/api', generateRouter);
 
