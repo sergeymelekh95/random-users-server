@@ -28,12 +28,11 @@ class generateController {
         arr[first] = arr[last];
         arr[last] = temp;
         arr = arr.join('').toString();
-
         return arr;
     }
 
     createError(value, randomError, nat) {
-        const randIndex = generator.getRandom(value.length);
+        const randIndex = generator.getRandom(value.length - 1);
 
         switch (randomError) {
             case 'delete':
@@ -43,7 +42,6 @@ class generateController {
                         value.substring(randIndex, value.length)
                     );
                 }
-
                 break;
             case 'add':
                 const alphabet = data[nat].alphabet;
@@ -56,7 +54,7 @@ class generateController {
                     value.slice(randIndex)
                 );
             case 'swap':
-                if (value.length > 0) {
+                if (value.length > 1) {
                     if (randIndex === value.length - 1) {
                         return this.swap(value, randIndex, randIndex - 1);
                     } else {
